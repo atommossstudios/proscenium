@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "unveil"
+version = "1.0.0"
+description = "Markdown slide decks in the terminal, with real typeset math."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "unveil contributors" }]
+keywords = ["slides", "presentation", "markdown", "terminal", "latex", "tui"]
+dependencies = ["rich>=13.7"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Graphics :: Presentation",
+    "Topic :: Text Processing :: Markup :: Markdown",
+]
+
+[project.urls]
+Homepage = "https://github.com/unveil-md/unveil"
+Source = "https://github.com/unveil-md/unveil"
+Issues = "https://github.com/unveil-md/unveil/issues"
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "build>=1"]
+
+[project.scripts]
+unveil = "unveil.cli:main"
+
+[tool.setuptools]
+packages = ["unveil"]
+
+[tool.setuptools.package-data]
+unveil = ["py.typed"]
+
+[tool.setuptools.data-files]
+"share/doc/unveil" = ["demo.md", "formatting.md", "showcase.md"]
+"share/doc/unveil/assets" = ["assets/demo.png"]
+
+[tool.pytest.ini_options]
+testpaths = ["."]
+python_files = ["test_*.py"]
