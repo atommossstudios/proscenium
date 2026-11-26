@@ -1,12 +1,15 @@
 # unveil
 
-Markdown slide decks in the terminal, with real typeset math.
+[![CI](https://github.com/atommossstudios/unveil/actions/workflows/ci.yml/badge.svg)](https://github.com/atommossstudios/unveil/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/atommossstudios/unveil)](https://github.com/atommossstudios/unveil/releases)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-`unveil` turns a single `.md` file into a full-screen presentation. Headings,
-tables, code and LaTeX are laid out for a terminal — no browser, no slide
-framework. Display math is compiled with **real LaTeX** (Tectonic) and painted
-into the slide with the Kitty graphics protocol, so fractions, roots,
-matrices and integrals have proper TeX spacing and Computer Modern shapes.
+**Markdown decks, lit for the terminal.**
+
+`unveil` turns one `.md` file into a full-screen presentation with real
+typeset math, charts, images, reveals and transitions. No browser, no slide
+app, no build step — just a terminal and a story.
 
 ```
 ┌─ The transform ─────────────────────────────────────┐
@@ -18,22 +21,29 @@ matrices and integrals have proper TeX spacing and Computer Modern shapes.
 └─────────────────────────────────────────────────────┘
 ```
 
-The ASCII sketch above is the fallback. In a graphics-capable terminal the
-box contains a crisp LaTeX-rendered image instead.
+That is the Unicode fallback. In a Kitty terminal the box holds a crisp
+LaTeX-rendered image with real Computer Modern spacing.
 
-## Install
+## 30-second start
 
 ```sh
-cd unveil
-pip install -e .
+pip install git+https://github.com/atommossstudios/unveil.git
 unveil demo.md
 ```
 
-Or run it straight from the checkout:
+From a checkout: `pip install -e .` then `unveil demo.md`, or skip installing
+and run `python3 -m unveil demo.md`.
 
-```sh
-python3 -m unveil demo.md
-```
+## Why unveil?
+
+- **One file, everything in it:** headings, tables, code, math, charts, images,
+  speaker notes and builds live side by side in Markdown.
+- **Real math when you have it:** Tectonic + Kitty graphics, with a beautiful
+  Unicode fallback everywhere else.
+- **Made for live rooms:** reveal builds, transitions, scrollable slides,
+  zoom/width controls, themes and a two-slide comparator.
+- **Tiny friction:** `@slide`, `@reveal`, `@qnotes` — directives read like
+  stage directions, not configuration files.
 
 A guided formatting showcase is also included:
 

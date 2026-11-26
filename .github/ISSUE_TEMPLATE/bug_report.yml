@@ -1,0 +1,42 @@
+name: Bug report
+description: Something rendered or behaved unexpectedly
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for the report. A tiny deck makes this much easier to fix.
+  - type: input
+    id: terminal
+    attributes:
+      label: Terminal
+      description: Kitty, Termux, tmux, etc.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: unveil version
+      placeholder: "1.0.0"
+    validations:
+      required: true
+  - type: textarea
+    id: deck
+    attributes:
+      label: Minimal deck
+      description: The smallest .md that reproduces it
+      render: markdown
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs actual
+    validations:
+      required: true
+  - type: textarea
+    id: dump
+    attributes:
+      label: Dump output
+      description: Output of `unveil --dump --size 80x24 --math-engine unicode deck.md`
+      render: shell

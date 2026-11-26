@@ -1,0 +1,23 @@
+name: Feature request
+description: Suggest a directive, chart, layout or interaction
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What should unveil do?
+    validations:
+      required: true
+  - type: textarea
+    id: syntax
+    attributes:
+      label: Proposed syntax
+      description: A short Markdown example is ideal
+      render: markdown
+  - type: textarea
+    id: why
+    attributes:
+      label: Why does it belong in a terminal deck?
+    validations:
+      required: true
