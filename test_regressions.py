@@ -6,10 +6,10 @@ import tempfile
 from pathlib import Path
 from unittest.mock import patch
 
-from unveil import latex, tui
-from unveil.md import Callout, Chart, Table, parse_deck
-from unveil.render import Renderer
-from unveil.theme import get_theme
+from proscenium import latex, tui
+from proscenium.md import Callout, Chart, Table, parse_deck
+from proscenium.render import Renderer
+from proscenium.theme import get_theme
 
 
 def _render(src: str, width: int = 60, height: int = 22) -> list[str]:

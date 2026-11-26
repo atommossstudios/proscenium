@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from unveil.math import render_block, render_inline
+from proscenium.math import render_block, render_inline
 
 CASES = [
     r"e^{i\pi} + 1 = 0",

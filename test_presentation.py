@@ -8,12 +8,12 @@ import sys
 import tempfile
 from pathlib import Path
 
-from unveil import tui
-from unveil.math import swidth
-from unveil.md import ListBlock, parse_deck, parse_directive
-from unveil.render import (Renderer, blend_frames, normalize_transition,
+from proscenium import tui
+from proscenium.math import swidth
+from proscenium.md import ListBlock, parse_deck, parse_directive
+from proscenium.render import (Renderer, blend_frames, normalize_transition,
                            reveal_glow)
-from unveil.theme import get_theme
+from proscenium.theme import get_theme
 
 
 BASE = "---\ntitle: t\n---\n\n"
@@ -240,7 +240,7 @@ def test_compare_any_slides_with_independent_focused_panes() -> None:
 def test_cli_compare_and_dump_step(capsys) -> None:  # noqa: ANN001
     root, _, path = _app(FOUR_SLIDES)
     try:
-        base = [sys.executable, "-m", "unveil", str(path), "--size", "80x14"]
+        base = [sys.executable, "-m", "proscenium", str(path), "--size", "80x14"]
         cwd = str(Path(__file__).parent)
         result = subprocess.run(base + ["--dump", "--dump-step", "1"],
                                 cwd=cwd, text=True, capture_output=True,
@@ -258,7 +258,7 @@ def test_cli_compare_and_dump_step(capsys) -> None:  # noqa: ANN001
         assert "beta text" not in result.stdout
         assert len(result.stdout.splitlines()) <= 14
 
-        narrow = [sys.executable, "-m", "unveil", str(path), "--dump",
+        narrow = [sys.executable, "-m", "proscenium", str(path), "--dump",
                   "--size", "20x8", "--compare", "1", "2"]
         result = subprocess.run(narrow, cwd=cwd, text=True,
                                 capture_output=True, check=False)

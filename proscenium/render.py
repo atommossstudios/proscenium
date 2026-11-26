@@ -1,4 +1,4 @@
-"""Slide layout and Rich rendering for unveil."""
+"""Slide layout and Rich rendering for proscenium."""
 
 from __future__ import annotations
 
@@ -2367,7 +2367,7 @@ class Renderer:
         while len(lines) < content_rows:
             lines.append(Text(" " * inner, style=th.on()))
 
-        label = "unveil" if pages == 1 else f"unveil {page + 1}/{pages}"
+        label = "proscenium" if pages == 1 else f"proscenium {page + 1}/{pages}"
         top = _help_border("╭", "╮", label, inner, th.accent, th.on())
         bottom = _help_border("╰", "╯",
                               "any key to close" if pages == 1 and

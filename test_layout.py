@@ -5,12 +5,12 @@ from __future__ import annotations
 import tempfile
 from pathlib import Path
 
-from unveil import tui
-from unveil.math import swidth
-from unveil.md import parse_deck
-from unveil.render import (HELP_ROWS, Renderer, _content_width,
+from proscenium import tui
+from proscenium.math import swidth
+from proscenium.md import parse_deck
+from proscenium.render import (HELP_ROWS, Renderer, _content_width,
                           help_page_count)
-from unveil.theme import get_theme
+from proscenium.theme import get_theme
 
 
 def _deck(src: str):

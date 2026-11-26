@@ -6,7 +6,7 @@ body:
   - type: textarea
     id: idea
     attributes:
-      label: What should unveil do?
+      label: What should proscenium do?
     validations:
       required: true
   - type: textarea

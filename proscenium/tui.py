@@ -1,4 +1,4 @@
-"""Interactive terminal loop for unveil."""
+"""Interactive terminal loop for proscenium."""
 
 from __future__ import annotations
 

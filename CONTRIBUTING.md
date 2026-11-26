@@ -1,15 +1,15 @@
-# Contributing to unveil
+# Contributing to proscenium
 
 Thanks for helping make terminal presentations feel good.
 
 ## Quick setup
 
 ```sh
-git clone https://github.com/atommossstudios/unveil.git
-cd unveil
+git clone https://github.com/atommossstudios/proscenium.git
+cd proscenium
 python -m pip install -e '.[dev]'
 python -m pytest -q
-python -m unveil demo.md
+python -m proscenium demo.md
 ```
 
 ## Before opening a PR

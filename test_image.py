@@ -8,10 +8,10 @@ import tempfile
 import zlib
 from pathlib import Path
 
-from unveil import images
-from unveil.md import Image, parse_deck
-from unveil.render import Renderer
-from unveil.theme import get_theme
+from proscenium import images
+from proscenium.md import Image, parse_deck
+from proscenium.render import Renderer
+from proscenium.theme import get_theme
 
 
 def _chunk(kind: bytes, data: bytes) -> bytes:

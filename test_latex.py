@@ -5,10 +5,10 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-from unveil import latex
-from unveil.md import parse_deck
-from unveil.render import Renderer
-from unveil.theme import get_theme
+from proscenium import latex
+from proscenium.md import parse_deck
+from proscenium.render import Renderer
+from proscenium.theme import get_theme
 
 
 def main() -> int:

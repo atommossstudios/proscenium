@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import sys
 
-from unveil.md import Chart, parse_deck
-from unveil.render import Renderer
-from unveil.theme import get_theme
+from proscenium.md import Chart, parse_deck
+from proscenium.render import Renderer
+from proscenium.theme import get_theme
 
 
 DECK = """\

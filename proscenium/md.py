@@ -1,6 +1,6 @@
-"""Markdown subset parser for unveil decks.
+"""Markdown subset parser for proscenium decks.
 
-In addition to ordinary markdown, unveil understands *directives*.  The short
+In addition to ordinary markdown, proscenium understands *directives*.  The short
 form is ``@kind key=value`` (or ``<uv kind key=value>``); the original HTML
 comment form ``<!-- kind: key=value ... -->`` still works too.  Directives
 configure the slide (``@slide``), the next block (``@eq``, ``@table``,

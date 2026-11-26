@@ -1,10 +1,10 @@
 ---
 title: The Whole Toolkit — Director's Cut
-author: unveil
+author: proscenium
 date: 2026-11-23
 theme: midnight
 clock: true
-footer: unveil
+footer: proscenium
 width: full
 transition: fade
 transition_time: 0.22

@@ -1,6 +1,6 @@
 ---
 title: Formatting tour
-author: unveil
+author: proscenium
 theme: midnight
 ---
 
@@ -343,7 +343,7 @@ Use `columns: 2`. Put the image in one column and the words in the other.
 
 # That is it
 
-Run it again with `python3 -m unveil formatting.md`
+Run it again with `python3 -m proscenium formatting.md`
 
 @notes
 The point of this deck is to be copied. Every slide shows the small piece of

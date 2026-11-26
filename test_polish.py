@@ -4,10 +4,10 @@ from __future__ import annotations
 
 import sys
 
-from unveil.md import (Callout, Columns, MathBlock, Table, Toc,
+from proscenium.md import (Callout, Columns, MathBlock, Table, Toc,
                        parse_directive, parse_deck)
-from unveil.render import Renderer
-from unveil.theme import get_theme, override_theme
+from proscenium.render import Renderer
+from proscenium.theme import get_theme, override_theme
 
 
 DECK = """\
@@ -115,7 +115,7 @@ def test_unicode_render() -> None:
 
 
 def test_latex_render() -> None:
-    from unveil import latex
+    from proscenium import latex
 
     if not latex.available():
         return

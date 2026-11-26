@@ -1,4 +1,4 @@
-"""Real LaTeX typesetting for unveil, powered by Tectonic.
+"""Real LaTeX typesetting for proscenium, powered by Tectonic.
 
 Display math is compiled to a tight standalone PDF, rasterised with
 ``pdftoppm`` and cached on disk.  The terminal UI then paints the PNG into a
@@ -79,7 +79,7 @@ def available() -> bool:
 
 def cache_root() -> Path:
     base = os.environ.get("XDG_CACHE_HOME") or os.path.expanduser("~/.cache")
-    path = Path(base) / "unveil" / "latex"
+    path = Path(base) / "proscenium" / "latex"
     path.mkdir(parents=True, exist_ok=True)
     return path
 

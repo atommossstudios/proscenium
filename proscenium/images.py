@@ -1,6 +1,6 @@
 """Image discovery, sizing and PNG preparation for Kitty placements.
 
-Unveil transmits PNG bytes through the Kitty graphics protocol.  Deck authors
+Proscenium transmits PNG bytes through the Kitty graphics protocol.  Deck authors
 can point at any common raster image (or an SVG/PDF); this module reads the
 intrinsic size directly from the file header where possible and uses
 ImageMagick only to normalise non-PNG sources into a cached PNG.
@@ -39,7 +39,7 @@ class PreparedImage:
 
 def cache_root() -> Path:
     base = os.environ.get("XDG_CACHE_HOME") or os.path.expanduser("~/.cache")
-    path = Path(base) / "unveil" / "images"
+    path = Path(base) / "proscenium" / "images"
     path.mkdir(parents=True, exist_ok=True)
     return path
 
@@ -226,7 +226,7 @@ def prepare_image(path: str, base_dir: Optional[str] = None,
 
     PNGs are used as-is; Kitty scales them to the reserved cell rectangle, so
     resampling them here would only cost time.  Other formats are converted
-    through ImageMagick into the unveil image cache, optionally shrunk to the
+    through ImageMagick into the proscenium image cache, optionally shrunk to the
     requested pixel bounds.  Returns None when the file cannot be read or
     converted.
     """

@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-import unveil
+import proscenium
 
 ROOT = Path(__file__).parent
 
@@ -16,13 +16,13 @@ def test_version_parity() -> None:
     assert match is not None
     # Compare the two sources of truth in the checkout.  An older copy that
     # happens to be installed elsewhere must not break a source-tree test.
-    assert match.group(1) == unveil.__version__ == "1.0.0"
+    assert match.group(1) == proscenium.__version__ == "1.0.0"
 
 
 def test_release_files_present() -> None:
     for name in ("LICENSE", "CHANGELOG.md", "README.md", "MANIFEST.in",
                  "demo.md", "formatting.md", "assets/demo.png",
-                 "unveil/py.typed"):
+                 "proscenium/py.typed"):
         assert (ROOT / name).is_file(), name
 
 

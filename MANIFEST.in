@@ -5,4 +5,4 @@ include demo.md
 include formatting.md
 include showcase.md
 recursive-include assets *.png
-recursive-include unveil py.typed
+recursive-include proscenium py.typed

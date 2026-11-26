@@ -1,13 +1,13 @@
-# unveil
+# proscenium
 
-[![CI](https://github.com/atommossstudios/unveil/actions/workflows/ci.yml/badge.svg)](https://github.com/atommossstudios/unveil/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/atommossstudios/unveil)](https://github.com/atommossstudios/unveil/releases)
+[![CI](https://github.com/atommossstudios/proscenium/actions/workflows/ci.yml/badge.svg)](https://github.com/atommossstudios/proscenium/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/atommossstudios/proscenium)](https://github.com/atommossstudios/proscenium/releases)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 **Markdown decks, lit for the terminal.**
 
-`unveil` turns one `.md` file into a full-screen presentation with real
+`proscenium` turns one `.md` file into a full-screen presentation with real
 typeset math, charts, images, reveals and transitions. No browser, no slide
 app, no build step — just a terminal and a story.
 
@@ -27,14 +27,14 @@ LaTeX-rendered image with real Computer Modern spacing.
 ## 30-second start
 
 ```sh
-pip install git+https://github.com/atommossstudios/unveil.git
-unveil demo.md
+pip install git+https://github.com/atommossstudios/proscenium.git
+proscenium demo.md   # or: cue demo.md
 ```
 
-From a checkout: `pip install -e .` then `unveil demo.md`, or skip installing
-and run `python3 -m unveil demo.md`.
+From a checkout: `pip install -e .` then `proscenium demo.md`, or skip installing
+and run `python3 -m proscenium demo.md`. The short alias `cue` is installed too.
 
-## Why unveil?
+## Why proscenium?
 
 - **One file, everything in it:** headings, tables, code, math, charts, images,
   speaker notes and builds live side by side in Markdown.
@@ -48,7 +48,7 @@ and run `python3 -m unveil demo.md`.
 A guided formatting showcase is also included:
 
 ```sh
-python3 -m unveil formatting.md
+python3 -m proscenium formatting.md
 ```
 
 For a long, feature-by-feature Director's Cut — every table style, chart type,
@@ -56,11 +56,11 @@ equation box, layout mode, image form, reveal build, transition and keyboard
 control in one 56-slide deck — run:
 
 ```sh
-python3 -m unveil showcase.md
+python3 -m proscenium showcase.md
 ```
 
 Installed wheels ship all three example decks and `assets/demo.png` under
-`<prefix>/share/doc/unveil/`; a source checkout has them at the repository
+`<prefix>/share/doc/proscenium/`; a source checkout has them at the repository
 root.
 
 Requires Python 3.10+ and [Rich](https://github.com/Textualize/rich).
@@ -72,12 +72,12 @@ pkg install tectonic poppler      # Termux
 # or: cargo install tectonic; apt install poppler-utils
 ```
 
-`unveil` uses `tectonic` and `pdftoppm`. If either is missing, or the
+`proscenium` uses `tectonic` and `pdftoppm`. If either is missing, or the
 terminal does not support Kitty graphics, it falls back to the built-in
 Unicode typesetter automatically. The first compile of a new formula downloads
 the TeX packages it needs and is cached afterwards in
-`~/.cache/unveil/latex`. Set `XDG_CACHE_HOME` to move both caches (LaTeX and
-converted images); image conversions live in `~/.cache/unveil/images`. A
+`~/.cache/proscenium/latex`. Set `XDG_CACHE_HOME` to move both caches (LaTeX and
+converted images); image conversions live in `~/.cache/proscenium/images`. A
 formula that fails to compile is remembered for the rest of the process, so a
 deck full of broken equations does not launch Tectonic once per formula.
 
@@ -208,7 +208,7 @@ on the command line exits with status 2. Layout aliases are `section` and
 The default `rounded` style is a proper panel with the title embedded in the
 top border and the number in the bottom-right corner. `double`, `square` and
 `heavy` are stronger variants. `card` (alias `clean`) is available when you want
-a borderless accent rule instead. `\boxed{...}` renders its own frame, so unveil
+a borderless accent rule instead. `\boxed{...}` renders its own frame, so proscenium
 skips the outer box. Both the LaTeX and Unicode math paths share these options.
 
 #### Tables
@@ -335,7 +335,7 @@ assets/overview.png
 In a Kitty graphics terminal the image is transmitted as a PNG and painted into
 a border that hugs the picture's natural dimensions. PNGs are sent directly;
 other formats are converted with ImageMagick (`magick` or `convert`) and cached
-under `~/.cache/unveil/images`. `--dump` and non-graphics terminals show a
+under `~/.cache/proscenium/images`. `--dump` and non-graphics terminals show a
 proportional placeholder box with the resolved size instead.
 
 Image directives accept `title`, `caption`, `width`, `height`, `style` (any
@@ -473,7 +473,7 @@ Computer Modern glyphs, proper big operators, `\begin{aligned}` alignment,
 anything else the LaTeX packages provide. The formula is coloured from the
 current theme, and the image background matches the slide so it blends in.
 
-When a formula is wider than the content column, `unveil` first tries to break
+When a formula is wider than the content column, `proscenium` first tries to break
 it at top-level relations (`=`, `\le`, `\to`, …) and binary operators (`+`,
 `-`, …) into a `gathered` display. If it still does not fit, the image is
 scaled down to the available width. Tall matrices and fractions are scaled to
@@ -532,12 +532,12 @@ with `t`.
 ## CLI
 
 ```
-unveil DECK.md [--theme NAME] [--no-footer] [--math-upright]
+proscenium DECK.md [--theme NAME] [--no-footer] [--math-upright]
                [--math-engine auto|latex|unicode] [--width WIDTH] [--fit|--no-fit]
                [--transition NAME] [--transition-time SECONDS]
                [--compare A B]
-unveil DECK.md --list
-unveil DECK.md --dump [--size 100x30] [--width WIDTH] [--fit|--no-fit]
+proscenium DECK.md --list
+proscenium DECK.md --dump [--size 100x30] [--width WIDTH] [--fit|--no-fit]
                       [--dump-step N] [--compare A B]
 ```
 
@@ -546,7 +546,7 @@ fixed size, which is handy for piping, snapshots and tests. `--size WxH`
 (default `100x30`, minimum `20x8`) only affects `--dump` and the automatic
 dump; the interactive player always follows the terminal window. `--dump` uses
 the Unicode typesetter because plain text cannot carry images. When **either**
-stdin or stdout is not a TTY, `unveil` dumps automatically and still honours
+stdin or stdout is not a TTY, `proscenium` dumps automatically and still honours
 `--size`.
 
 `--math-engine auto` (the default) uses LaTeX when Tectonic, Poppler and

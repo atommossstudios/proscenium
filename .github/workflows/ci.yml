@@ -23,4 +23,4 @@ jobs:
       - name: Build package
         run: python -m build
       - name: Check CLI
-        run: python -m unveil --version && python -m unveil --list demo.md
+        run: python -m proscenium --version && python -m proscenium --list demo.md

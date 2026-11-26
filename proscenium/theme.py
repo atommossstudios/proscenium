@@ -1,4 +1,4 @@
-"""Terminal themes for unveil."""
+"""Terminal themes for proscenium."""
 
 from __future__ import annotations
 

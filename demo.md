@@ -136,7 +136,7 @@ v2,24,29,34,41
 
 ## Pictures, by path alone
 
-Just drop a path on its own line — relative to this deck — and unveil paints
+Just drop a path on its own line — relative to this deck — and proscenium paints
 it with the Kitty graphics protocol. `![alt](path)` and
 `@image path width=30` work too.
 

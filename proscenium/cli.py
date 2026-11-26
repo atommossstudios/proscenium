@@ -1,4 +1,4 @@
-"""Command line entry point for unveil."""
+"""Command line entry point for proscenium."""
 
 from __future__ import annotations
 
@@ -23,7 +23,7 @@ def _size(value: str) -> tuple[int, int]:
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
-        prog="unveil",
+        prog="proscenium",
         description="A terminal-first markdown slide deck with real math.",
         epilog="slide break: a line containing ---    math: $inline$ and $$display$$",
     )
@@ -61,7 +61,7 @@ def build_parser() -> argparse.ArgumentParser:
                         "or dumps just that comparison with --dump)")
     p.add_argument("--dump-step", type=int, default=None, metavar="N",
                    help="reveal step to dump (default: show every build)")
-    p.add_argument("--version", action="version", version=f"unveil {__version__}")
+    p.add_argument("--version", action="version", version=f"proscenium {__version__}")
     return p
 
 
@@ -72,10 +72,10 @@ def main(argv: Optional[list[str]] = None) -> int:
         return 2
     path = args.deck
     if not os.path.exists(path):
-        sys.stderr.write(f"unveil: no such file: {path}\n")
+        sys.stderr.write(f"proscenium: no such file: {path}\n")
         return 1
     if not os.path.isfile(path):
-        sys.stderr.write(f"unveil: not a file: {path}\n")
+        sys.stderr.write(f"proscenium: not a file: {path}\n")
         return 1
 
     if args.list:
