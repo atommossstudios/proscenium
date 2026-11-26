@@ -371,8 +371,8 @@ sets the length, `align=` moves it, and `char=` overrides the glyph.
 ```
 
 `@border ...` wraps the following blocks in a Rich panel until
-`@qborder`, or just the next paragraph if you leave the closer off
-out. `style=` accepts `rounded`, `square`, `double`, `heavy`, `simple`,
+`@qborder`, or just the next paragraph if you leave the closer off.
+`style=` accepts `rounded`, `square`, `double`, `heavy`, `simple`,
 `minimal`, `presentation`, `markdown`, `accent`; `title=`, `caption=` and
 `border=` set the label and colour. Aliases: `frame`, `panel`.
 
