@@ -21,7 +21,8 @@ def test_version_parity() -> None:
 
 def test_release_files_present() -> None:
     for name in ("LICENSE", "CHANGELOG.md", "README.md", "MANIFEST.in",
-                 "demo.md", "formatting.md", "assets/demo.png",
+                 "demo.md", "formatting.md", "showcase.md", "impossible.md",
+                 "assets/demo.png",
                  "proscenium/py.typed"):
         assert (ROOT / name).is_file(), name
 

@@ -56,6 +56,11 @@ def build_parser() -> argparse.ArgumentParser:
                         "dissolve or none")
     p.add_argument("--transition-time", metavar="SECONDS",
                    help="transition duration in seconds (default 0.22)")
+    p.add_argument("--animation", metavar="NAME",
+                   help="entrance effect: none, fade, type, slide, "
+                        "slide-right, rise, drop, grow, pop, draw or spark")
+    p.add_argument("--animation-time", metavar="SECONDS",
+                   help="entrance duration in seconds (default 0.55)")
     p.add_argument("--compare", nargs=2, type=int, metavar=("A", "B"),
                    help="compare two slides by number (opens compare view, "
                         "or dumps just that comparison with --dump)")
@@ -95,8 +100,12 @@ def main(argv: Optional[list[str]] = None) -> int:
                         args.math_engine, width_setting=args.width, fit=args.fit,
                         step=args.dump_step, compare=compare,
                         transition=args.transition,
-                        transition_time=args.transition_time)
+                        transition_time=args.transition_time,
+                        animation=args.animation,
+                        animation_time=args.animation_time)
     return tui.run(path, args.theme, footer, math_italic, args.math_engine,
                    args.size, width_setting=args.width, fit=args.fit,
                    transition=args.transition,
-                   transition_time=args.transition_time, compare=compare)
+                   transition_time=args.transition_time, compare=compare,
+                   animation=args.animation,
+                   animation_time=args.animation_time)

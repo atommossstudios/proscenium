@@ -46,7 +46,7 @@ packages = ["proscenium"]
 proscenium = ["py.typed"]
 
 [tool.setuptools.data-files]
-"share/doc/proscenium" = ["demo.md", "formatting.md", "showcase.md"]
+"share/doc/proscenium" = ["demo.md", "formatting.md", "showcase.md", "impossible.md"]
 "share/doc/proscenium/assets" = ["assets/demo.png"]
 
 [tool.pytest.ini_options]

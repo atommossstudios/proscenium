@@ -8,6 +8,12 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- Entrance animations: `@anim type`, `@anim slide`, `@anim draw`, `@anim grow`,
+  `@anim pop`, `@anim spark`, `@anim rise`, `@anim drop` and `@anim fade`, with
+  bare shorthands such as `@typewriter`, `@glide` and `@zoomin`. Effects work
+  per slide, per reveal step and on Kitty image placements. `animation:` front
+  matter and `--animation` / `--animation-time` set the defaults.
+- `impossible.md`: a 15-slide demo deck built around the new animations.
 - Short directive syntax: `@reveal items`, `@slide layout=title`, the tag
   spelling `<uv slide layout=title>` / `uv<title="skibdi">`, and `q` closers
   such as `@qnotes`, `@qcolumns` and `@qborder`. The original `<!-- ... -->`
@@ -61,6 +67,8 @@ All notable changes to this project are documented here. The format follows
   width accounts for padding and border, and matrix delimiters stay aligned.
 - Footer chips no longer overflow 20-column terminals, and the help overlay no
   longer clips its border or later key bindings at 40×20 and 20×8.
+- An explicit `layout=title` slide can contain code, tables or charts without
+  crashing the hero renderer.
 
 ## [1.0.0] — 2026-11-21
 

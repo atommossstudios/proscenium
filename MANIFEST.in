@@ -4,5 +4,6 @@ include CHANGELOG.md
 include demo.md
 include formatting.md
 include showcase.md
+include impossible.md
 recursive-include assets *.png
 recursive-include proscenium py.typed

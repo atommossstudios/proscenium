@@ -42,6 +42,8 @@ and run `python3 -m proscenium demo.md`. The short alias `cue` is installed too.
   Unicode fallback everywhere else.
 - **Made for live rooms:** reveal builds, transitions, scrollable slides,
   zoom/width controls, themes and a two-slide comparator.
+- **Entrance animations:** typewriter text, objects gliding in from off-stage,
+  charts drawn column by column, centre-out zoom and per-cell sparkles.
 - **Tiny friction:** `@slide`, `@reveal`, `@qnotes` — directives read like
   stage directions, not configuration files.
 
@@ -59,7 +61,14 @@ control in one 56-slide deck — run:
 python3 -m proscenium showcase.md
 ```
 
-Installed wheels ship all three example decks and `assets/demo.png` under
+And for the loud one — a 15-slide, character-typed, draw-on, fly-in,
+spring-loaded demo of everything the animation engine can do:
+
+```sh
+proscenium impossible.md
+```
+
+Installed wheels ship all four example decks and `assets/demo.png` under
 `<prefix>/share/doc/proscenium/`; a source checkout has them at the repository
 root.
 
@@ -445,6 +454,47 @@ the deck default. Effects are applied to whole rendered rows, so wide glyphs,
 LaTeX placements and images never tear. Press `a` to turn motion off for the
 session; `--transition` and `--transition-time` override the deck settings.
 
+#### Entrance animations
+
+Transitions move between slides. *Entrance animations* move a slide onto the
+stage — character by character, object by object:
+
+```markdown
+@anim type time=1.0
+@slide layout=title animation=type
+
+# IMPOSSIBLE
+
+@anim slide-right
+
+- each reveal step glides in from the right
+- unchanged objects stay exactly where they are
+```
+
+`@anim NAME`, `@slide animation=NAME`, `animation:` in front matter and
+`--animation NAME` all select an effect. `time=`/`animation_time=` set the
+duration in seconds (default `0.55`; reveal steps use 60% of it). Bare
+directives such as `@typewriter`, `@glide`, `@zoomin` and `@spark` are
+shorthands.
+
+| Effect | What arrives |
+|:-------|:-------------|
+| `type` / `typewriter` | characters typed in reading order, with a blinking cursor |
+| `slide` / `glide` | the frame or new object slides in from the left |
+| `slide-right` | the same, from the right |
+| `rise` / `drop` | objects travel up from below or down from above |
+| `grow` / `pop` | a centre-out opening; `pop` overshoots like a spring |
+| `draw` | a bright head sweeps text, tables and charts into existence |
+| `spark` | cells appear in a stable, shimmering order |
+| `fade` | a soft cross-fade from the previous stage |
+| `none` | no entrance effect; only the slide transition runs |
+
+With `@reveal`, only rows that changed animate, so a build looks like new
+objects entering a fixed stage. Kitty images and LaTeX placements travel and
+scale with the text frame in graphics-capable terminals; other terminals get
+the same motion on the proportional placeholder boxes. `--dump` always shows
+the finished frame, and `a` turns all motion off for the session.
+
 `@toc` (aliases `agenda`, `outline`) renders an agenda of slide titles
 with the current slide marked. `start=` skips leading slides and `max=` limits
 the number shown.
@@ -535,6 +585,7 @@ with `t`.
 proscenium DECK.md [--theme NAME] [--no-footer] [--math-upright]
                [--math-engine auto|latex|unicode] [--width WIDTH] [--fit|--no-fit]
                [--transition NAME] [--transition-time SECONDS]
+               [--animation NAME] [--animation-time SECONDS]
                [--compare A B]
 proscenium DECK.md --list
 proscenium DECK.md --dump [--size 100x30] [--width WIDTH] [--fit|--no-fit]
@@ -563,7 +614,9 @@ override `fit:` and control whether spacing and visuals are squeezed to reduce
 scrolling. Both keys work in the live player too (`w` and `f`).
 
 `--transition NAME` and `--transition-time SECONDS` override the deck's
-transition settings. `--compare A B` opens the interactive comparator on any
+transition settings. `--animation NAME` and `--animation-time SECONDS` do the
+same for entrance animations; use `--animation none` to keep only transitions.
+`--compare A B` opens the interactive comparator on any
 two slide numbers, or dumps only that comparison when used with `--dump`.
 Comparison needs at least 40 columns in both modes. `--dump-step N` selects a
 reveal step for dumps; by default every dump shows the final build so no

@@ -162,6 +162,19 @@ DIRECTIVE_ALIASES = {
     "endpanel": "endborder", "endframe": "endborder",
     "qpanel": "endborder", "qframe": "endborder", "qborder": "endborder",
     "qnotes": "endnotes", "notes_end": "endnotes",
+    "anim": "animation", "animate": "animation", "entrance": "animation",
+    "enter": "animation", "motion": "animation",
+}
+
+#: Bare directives that name an entrance effect directly, e.g. ``@typewriter``.
+_ANIMATION_SHORTCUTS = {
+    "typewriter": "type", "typing": "type", "write": "type",
+    "fadein": "fade", "fade_in": "fade", "appear": "fade",
+    "glide": "slide", "slidein": "slide", "slide_in": "slide",
+    "risein": "rise", "rise_in": "rise", "dropin": "drop",
+    "drop_in": "drop", "zoomin": "grow", "zoom_in": "grow",
+    "growin": "grow", "grow_in": "grow", "draw": "draw",
+    "trace": "draw", "spark": "spark", "pop": "pop",
 }
 
 _DIRECTIVE_RE = re.compile(r"^<!--\s*([\w-]+)\s*:?\s*(.*?)\s*-->\s*$", re.S)
@@ -218,6 +231,12 @@ def _normalize_short_directives(text: str) -> str:
             i += 1
             continue
         kind, body, closing = found
+        if kind in _ANIMATION_SHORTCUTS:
+            value = _ANIMATION_SHORTCUTS[kind]
+            timing = f" animation_time={body}" if re.fullmatch(
+                r"\d+(?:\.\d+)?", body) else ""
+            body = f"animation={value}{timing}"
+            kind = "animation"
         alias = DIRECTIVE_ALIASES.get(kind, kind)
         if alias.startswith("end"):
             out.append(f"<!-- {kind} -->")
@@ -386,9 +405,23 @@ def parse_directive(comment: str) -> Optional[tuple[str, dict[str, str]]]:
     kind = DIRECTIVE_ALIASES.get(kind, kind)
     known = ("slide", "eq", "table", "code", "chart", "image", "callout",
              "columns", "endcolumns", "notes", "endnotes", "colbreak",
-             "toc", "rule", "border", "endborder", "reveal")
+             "toc", "rule", "border", "endborder", "reveal", "animation")
     if kind not in known:
         return None
+    if kind == "animation":
+        raw = m.group(2).strip().strip("\"'").strip().lower()
+        tokens = raw.split()
+        value = (opts.get("animation") or opts.get("type")
+                 or opts.get("style")
+                 or (tokens[0] if tokens else "fade")).lower()
+        if value == "true" and tokens:
+            value = tokens[0]
+        result = {"animation": value}
+        timing = opts.get("animation_time") or opts.get("time") \
+            or opts.get("duration")
+        if timing:
+            result["animation_time"] = str(timing)
+        return kind, result
     if kind == "reveal":
         # Accept <!-- reveal --> (auto), <!-- reveal: 2 -->,
         # <!-- reveal: items --> and <!-- reveal: step=3 -->.
@@ -794,6 +827,10 @@ def parse_blocks(lines: list[str]) -> list[Block]:
                     i = j
                     continue
                 if kind == "endcolumns":
+                    i = j
+                    continue
+                if kind == "animation":
+                    # Slide-level entrance effects are consumed by parse_deck.
                     i = j
                     continue
                 if kind == "toc":
@@ -1230,6 +1267,8 @@ def parse_deck(text: str, fallback_title: str = "Untitled") -> Deck:
                 comment, j = _read_comment(raw, i)
                 directive = parse_directive(comment)
                 if directive and directive[0] == "slide":
+                    slide_options.update(directive[1])
+                elif directive and directive[0] == "animation":
                     slide_options.update(directive[1])
                 elif directive and directive[0] == "notes":
                     m = re.search(r"notes?\s*:\s*(.*?)-->", comment, re.S | re.I)

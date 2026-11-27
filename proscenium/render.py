@@ -387,7 +387,7 @@ HELP_ROWS: tuple[tuple[str, str, str, str], ...] = (
     ("c", "compare two slides", "c", "cmp"),
     ("tab", "switch compare pane", "tab", "pane"),
     ("x", "swap compare panes", "x", "swap"),
-    ("a", "toggle transitions", "a", "anim"),
+    ("a", "toggle motion and transitions", "a", "anim"),
     ("b", "blank the screen", "b", "blank"),
     ("t", "cycle theme", "t", "theme"),
     ("r", "reload the file", "r", "reload"),
@@ -2043,8 +2043,12 @@ class Renderer:
                 t = self._inline(block.text)
                 t.stylize(f"bold {th.accent2}", 0, len(t))
                 body.append(t)
-            else:
+            elif getattr(block, "text", None) is not None:
                 body.append(self._inline(block.text, f"italic {th.dim}"))
+            else:
+                # An explicit `layout=title` slide can still hold code, tables
+                # or charts.  Let the normal block renderer handle those.
+                body.extend(self._block_lines(block))
         meta_bits = []
         if index == 0:
             if self.deck.author:

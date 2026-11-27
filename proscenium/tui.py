@@ -19,6 +19,7 @@ from typing import Optional
 from rich.console import Console
 from rich.text import Text
 
+from .anim import animate_frame, normalize_animation
 from .md import _reveal_number, parse_deck
 from .render import (WIDTH_MODES, Placement, Renderer, _ellipsis,
                      blend_frames, help_page_count, normalize_transition,
@@ -175,7 +176,9 @@ class App:
                  width_setting: Optional[str] = None,
                  fit: Optional[bool] = None,
                  transition: Optional[str] = None,
-                 transition_time: Optional[str] = None):
+                 transition_time: Optional[str] = None,
+                 animation: Optional[str] = None,
+                 animation_time: Optional[str] = None):
         self.path = path
         self.footer = footer
         self.math_italic = math_italic
@@ -215,6 +218,15 @@ class App:
             self.transition_time = max(0.05, min(1.5, float(raw_time or 0.22)))
         except (TypeError, ValueError):
             self.transition_time = 0.22
+        self.animation_name = normalize_animation(
+            animation or self.deck.meta.get("animation") or "none")
+        raw_animation_time = animation_time or self.deck.meta.get(
+            "animation_time")
+        try:
+            self.animation_time = max(0.1, min(3.0,
+                                               float(raw_animation_time or 0.55)))
+        except (TypeError, ValueError):
+            self.animation_time = 0.55
         self.anim: Optional[dict] = None
         self.last_frame: Optional[list[Text]] = None
         self.last_placements: list[Placement] = []
@@ -356,12 +368,32 @@ class App:
                or self.transition_name or "fade")
         return normalize_transition(raw)
 
+    def _animation_for(self, index: int) -> str:
+        slide = self.deck.slides[index]
+        raw = (slide.options.get("animation")
+               or slide.options.get("anim") or self.animation_name)
+        return normalize_animation(raw)
+
     def start_transition(self, old: Optional[list[Text]] = None,
                          old_placements: Optional[list[Placement]] = None,
                          reveal: bool = False,
                          index: Optional[int] = None) -> None:
-        kind = self._transition_for(self._current_index() if index is None
-                                    else index)
+        target = self._current_index() if index is None else index
+        anim_kind = self._animation_for(target)
+        if self.animate and anim_kind != "none":
+            if old is None:
+                old, old_placements = self.capture()
+            self.anim = {
+                "mode": "animation",
+                "old": list(old),
+                "old_placements": list(old_placements or []),
+                "start": time.monotonic(),
+                "duration": self.animation_time * (0.6 if reveal else 1.0),
+                "reveal": reveal,
+                "kind": anim_kind,
+            }
+            return
+        kind = self._transition_for(target)
         if not self.animate or kind == "cut":
             self.anim = None
             return
@@ -579,7 +611,7 @@ class App:
         if key == "a":
             self.animate = not self.animate
             self.anim = None
-            self.set_flash(f"transitions: {'on' if self.animate else 'off'}")
+            self.set_flash(f"motion: {'on' if self.animate else 'off'}")
             return None
         if key in ("[", "]"):
             # In compare view these jump the focused pane; otherwise the
@@ -634,6 +666,15 @@ class App:
                     / self.anim["duration"])
         if progress >= 1:
             self.anim = None
+            return lines
+        if self.anim.get("mode") == "animation":
+            lines, places = animate_frame(
+                self.anim["old"], lines, progress, self.anim["kind"],
+                self.theme, self.size[0], self.size[1],
+                self.anim["old_placements"], placements,
+                reveal=self.anim["reveal"],
+            )
+            self.frame_placements = places
             return lines
         if self.anim["reveal"]:
             blended = reveal_glow(self.anim["old"], lines, progress,
@@ -890,17 +931,21 @@ def run(path: str, theme: Optional[str] = None, footer: bool = True,
         fit: Optional[bool] = None,
         transition: Optional[str] = None,
         transition_time: Optional[str] = None,
-        compare: Optional[tuple[int, int]] = None) -> int:
+        compare: Optional[tuple[int, int]] = None,
+        animation: Optional[str] = None,
+        animation_time: Optional[str] = None) -> int:
     if not (sys.stdin.isatty() and sys.stdout.isatty()):
         return dump(path, theme, footer, size=size, math_italic=math_italic,
                     math_engine=math_engine, width_setting=width_setting,
                     fit=fit, transition=transition,
-                    transition_time=transition_time, compare=compare)
+                    transition_time=transition_time, compare=compare,
+                    animation=animation, animation_time=animation_time)
     cell_size, graphics = query_terminal()
     app = App(path, theme, footer, math_italic=math_italic,
               cell_size=cell_size, graphics=graphics, math_engine=math_engine,
               width_setting=width_setting, fit=fit, transition=transition,
-              transition_time=transition_time)
+              transition_time=transition_time, animation=animation,
+              animation_time=animation_time)
     if compare and app.size[0] >= 40:
         app.compare = True
         app.compare_indices = [max(0, min(len(app.deck.slides) - 1, i))
@@ -976,7 +1021,9 @@ def dump(path: str, theme: Optional[str] = None, footer: bool = True,
          transition: Optional[str] = None,
          transition_time: Optional[str] = None,
          compare: Optional[tuple[int, int]] = None,
-         step: Optional[int] = None) -> int:
+         step: Optional[int] = None,
+         animation: Optional[str] = None,
+         animation_time: Optional[str] = None) -> int:
     with open(path, "r", encoding="utf-8") as fh:
         text = fh.read()
     stem = os.path.splitext(os.path.basename(path))[0]
